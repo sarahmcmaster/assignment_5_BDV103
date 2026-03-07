@@ -8,11 +8,18 @@ let _client: MongoClient | null = null;
 const DATABASE_NAME = 'mcmasterful-books';
 
 function getUri(): string {
-  return (global as Record<string, unknown>).MONGO_URI as string ?? 'mongodb://mongo';
+  return (
+    ((global as Record<string, unknown>).MONGO_URI as string | undefined) ??
+    process.env.MONGO_URI ??
+    'mongodb://mongo'
+  );
 }
 
 function isTestEnvironment(): boolean {
-  return (global as Record<string, unknown>).MONGO_URI !== undefined;
+  return (
+    (global as Record<string, unknown>).MONGO_URI !== undefined ||
+    process.env.MONGO_URI !== undefined
+  );
 }
 
 export function getClient(): MongoClient {
