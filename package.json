@@ -4,11 +4,14 @@
   "description": "This is a template repository for the first assignment in BVD 103 at McMaster Continuing Education.",
   "main": "src/server.ts",
   "scripts": {
-    "generate": "npx tsoa spec-and-routes && (sed -i.bak '1s/^/\\/\\/ @ts-nocheck\\n/' build/routes.ts && rm -f build/routes.ts.bak)",
+    "generate": "npx tsoa spec-and-routes",
     "generate:full": "./generate-openapi.sh",
     "start-server": "npm run generate && tsx ./src/server.ts",
     "test": "vitest",
     "test:ci": "vitest run",
+    "test:unit": "vitest run src",
+    "test:api":"vitest run tests",
+    "test:ci":"npm run test:unit && npm run test:api",
     "lint": "npm run generate && eslint . --ext .ts",
     "fix-lint": "npm run generate && eslint . --ext .ts --fix",
     "type-check": "npm run generate && tsc --noEmit"
