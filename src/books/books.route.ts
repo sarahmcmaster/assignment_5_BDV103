@@ -117,13 +117,18 @@ export class BooksController extends Controller {
    * @returns Array of books matching the filters
    */
   @Get()
-  public async listBooks(
-    @Request() ctx: Context
-  ): Promise<Book[]> {
-    // Extract filters from parsed query (koa-qs parses complex query strings)
+public async listBooks(
+  @Request() ctx: Context
+): Promise<Book[]> {
+  try {
     const queryParams = ctx.query as { filters?: BookFilter[] };
-    return listBooksLogic({ filters: queryParams.filters }, getBookDatabase());
+    return await listBooksLogic({ filters: queryParams.filters }, getBookDatabase());
+  } catch (error) {
+    console.error('listBooks failed:', error);
+    this.setStatus(500);
+    throw new Error('Server error');
   }
+}
 
   /**
    * Get a specific book by ID
