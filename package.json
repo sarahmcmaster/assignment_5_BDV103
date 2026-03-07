@@ -9,7 +9,7 @@
     "start-server": "npm run generate && tsx ./src/server.ts",
     "test": "vitest",
     "test:unit": "vitest run src",
-    "test:api": "vitest run src/test/hello.spec.ts",
+    "test:api": "vitest run src/test/books.api.spec.ts",
     "test:ci":"npm run test:unit && npm run test:api",
     "lint": "npm run generate && eslint . --ext .ts",
     "fix-lint": "npm run generate && eslint . --ext .ts --fix",

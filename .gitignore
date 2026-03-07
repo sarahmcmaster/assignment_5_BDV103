@@ -134,3 +134,6 @@ build/
 
 # OpenAPI generated client
 client/
+
+#test db
+TEST_DB_NAME: 'api-test-db'

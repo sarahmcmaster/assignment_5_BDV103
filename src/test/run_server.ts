@@ -43,10 +43,12 @@ export default function (): void {
       cwd: process.cwd(),
       stdio: 'inherit',
       shell: true,
-      env: {
-        ...process.env,
-        MONGO_URI: mongoUriBase
-      }
+      // test db
+     env: {
+    ...process.env,
+    MONGO_URI: mongoUriBase,
+    TEST_DB_NAME: 'api-test-db'
+    }
     });
 
     await waitForServer(context.address);

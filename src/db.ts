@@ -1,6 +1,6 @@
 import { type Collection, type Db, MongoClient } from 'mongodb';
 // We are importing the book type here, so we can keep our types consistent with the front end
-import { type Book } from '../adapter/assignment-3';
+import { type Book } from './books/books.route';
 
 // Lazy-loaded client to ensure test setup can set MONGO_URI before client creation
 let _client: MongoClient | null = null;
@@ -20,6 +20,22 @@ function isTestEnvironment(): boolean {
     (global as Record<string, unknown>).MONGO_URI !== undefined ||
     process.env.MONGO_URI !== undefined
   );
+}
+
+function getDatabaseName(dbName?: string): string {
+  if (dbName) {
+    return dbName;
+  }
+
+  if (process.env.TEST_DB_NAME) {
+    return process.env.TEST_DB_NAME;
+  }
+
+  if (isTestEnvironment()) {
+    return 'test-db';
+  }
+
+  return DATABASE_NAME;
 }
 
 export function getClient(): MongoClient {
@@ -43,11 +59,7 @@ export interface BookDatabaseAccessor {
 
 export function getBookDatabase(dbName?: string): BookDatabaseAccessor {
   const mongoClient = getClient();
-  const database = mongoClient.db(
-    dbName ?? (isTestEnvironment()
-      ? Math.floor(Math.random() * 100000).toString()
-      : DATABASE_NAME)
-  );
+  const database = mongoClient.db(getDatabaseName(dbName));
   const books = database.collection<Book>(DATABASE_NAME);
 
   return {
