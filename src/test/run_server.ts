@@ -19,7 +19,9 @@ async function waitForServer(url: string, attempts = 30): Promise<void> {
     try {
       const response = await fetch(`${url}/docs/spec`);
       if (response.ok) return;
-    } catch {}
+    } catch {
+     // server not ready yet
+    }
     await wait(1000);
   }
   throw new Error('Server did not start in time');
