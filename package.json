@@ -5,7 +5,7 @@
   "main": "src/server.ts",
   "scripts": {
    "generate": "npx tsoa spec-and-routes && node -e \"const fs=require('fs'); const p='build/routes.ts'; const s=fs.readFileSync(p,'utf8'); if(!s.startsWith('// @ts-nocheck')) fs.writeFileSync(p, '// @ts-nocheck\\n'+s);\"",
-    "generate:full": "./generate-openapi.sh",
+    "generate:full": "bash ./generate-openapi.sh",
     "start-server": "npm run generate && tsx ./src/server.ts",
     "test": "vitest",
     "test:unit": "vitest run src/books src/warehouse src/db.ts",
@@ -13,7 +13,7 @@
     "test:ci":"npx kill-port 3000 && npm run test:unit && npm run test:api",
     "lint": "npm run generate && eslint . --ext .ts",
     "fix-lint": "npm run generate && eslint . --ext .ts --fix",
-    "type-check": "tsc --noEmit"
+    "type-check":  "npm run generate:full && tsc --noEmit"
   },
   "keywords": [],
   "author": "",
