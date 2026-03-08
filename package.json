@@ -4,7 +4,7 @@
   "description": "This is a template repository for the first assignment in BVD 103 at McMaster Continuing Education.",
   "main": "src/server.ts",
   "scripts": {
-    "generate": "npx tsoa spec-and-routes",
+   "generate": "npx tsoa spec-and-routes && node -e \"const fs=require('fs'); const p='build/routes.ts'; const s=fs.readFileSync(p,'utf8'); if(!s.startsWith('// @ts-nocheck')) fs.writeFileSync(p, '// @ts-nocheck\\n'+s);\"",
     "generate:full": "./generate-openapi.sh",
     "start-server": "npm run generate && tsx ./src/server.ts",
     "test": "vitest",
